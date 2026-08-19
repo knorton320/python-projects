@@ -20,13 +20,14 @@ import xml.etree.ElementTree as ET
 import requests
 
 ITUNES_LOOKUP = "https://itunes.apple.com/lookup"
-OUT_DIR = pathlib.Path("podcast_archive/transcripts/_single")  # adjust as needed
+OUT_DIR = pathlib.Path("outputs/podcast_archive/transcripts/_single")  # adjust as needed
 UA = "Mozilla/5.0 (PodcastArchiver/2.1)"
 TIMEOUT = 60
 
 
 def parse_input(arg):
     """Return (collection_id, episode_id) from an Apple Podcasts URL."""
+    arg = arg.replace("\\", "")  # tolerate shell-escaped pastes like id123\?i\=456
     parsed = urllib.parse.urlparse(arg)
     m = re.search(r"/id(\d+)", parsed.path)
     coll = m.group(1) if m else None
